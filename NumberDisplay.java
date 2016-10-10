@@ -14,6 +14,7 @@ public class NumberDisplay
 {
     private int limit;
     private int value;
+    private boolean isTwelve;
 
     /**
      * Constructor for objects of class NumberDisplay.
@@ -23,8 +24,30 @@ public class NumberDisplay
     {
         limit = rollOverLimit;
         value = 0;
+        isTwelve = false;
     }
 
+    /**
+     * Constructor for objects of class NumberDisplay.
+     * Set the limit at which the display rolls over.
+     * and allows for a twelve hour display clock
+     */
+    public NumberDisplay(int rollOverLimit, boolean twelveHour)
+    {
+        if (twelveHour == true)
+        {
+            limit = 12;
+            value = 12;
+            isTwelve = true;
+        }
+        else
+        {
+            limit = rollOverLimit;
+            value = 0;
+            isTwelve = false;
+        }
+    }
+    
     /**
      * Return the current value.
      */
@@ -54,7 +77,14 @@ public class NumberDisplay
      */
     public void setValue(int replacementValue)
     {
-        if((replacementValue >= 0) && (replacementValue < limit)) {
+        if(replacementValue == 0)
+        {
+            if(isTwelve == true)
+            {
+                value = 12;
+            }
+        }
+        else if((replacementValue >= 0) && (replacementValue < limit)) {
             value = replacementValue;
         }
     }
@@ -66,5 +96,12 @@ public class NumberDisplay
     public void increment()
     {
         value = (value + 1) % limit;
+        if (isTwelve) 
+        {
+            if(value == 0)
+            {
+                value = 12;
+            }
+        }
     }
 }
